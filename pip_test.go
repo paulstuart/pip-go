@@ -12,10 +12,10 @@ func TestPip(t *testing.T) {
 
 	rectangle := pip.Polygon{
 		Points: []pip.Point{
-			pip.Point{X: 1.0, Y: 1.0},
-			pip.Point{X: 1.0, Y: 2.0},
-			pip.Point{X: 2.0, Y: 2.0},
-			pip.Point{X: 2.0, Y: 1.0},
+			{X: 1.0, Y: 1.0},
+			{X: 1.0, Y: 2.0},
+			{X: 2.0, Y: 2.0},
+			{X: 2.0, Y: 1.0},
 		},
 	}
 
@@ -63,10 +63,10 @@ func BenchmarkPip(b *testing.B) {
 
 	rectangle := pip.Polygon{
 		Points: []pip.Point{
-			pip.Point{X: 1.0, Y: 1.0},
-			pip.Point{X: 1.0, Y: 2.0},
-			pip.Point{X: 2.0, Y: 2.0},
-			pip.Point{X: 2.0, Y: 1.0},
+			{X: 1.0, Y: 1.0},
+			{X: 1.0, Y: 2.0},
+			{X: 2.0, Y: 2.0},
+			{X: 2.0, Y: 1.0},
 		},
 	}
 
@@ -114,14 +114,14 @@ func BenchmarkPipOneMillion(b *testing.B) {
 	b.StopTimer()
 	polygon := pip.Polygon{
 		Points: []pip.Point{
-			pip.Point{X: 0.0, Y: 0.0},
-			pip.Point{X: 30.0, Y: 50.0},
-			pip.Point{X: 0.0, Y: 100.0},
-			pip.Point{X: 50.0, Y: 70.0},
-			pip.Point{X: 100.0, Y: 100.0},
-			pip.Point{X: 70.0, Y: 50.0},
-			pip.Point{X: 100.0, Y: 0.0},
-			pip.Point{X: 50.0, Y: 30.0},
+			{X: 0.0, Y: 0.0},
+			{X: 30.0, Y: 50.0},
+			{X: 0.0, Y: 100.0},
+			{X: 50.0, Y: 70.0},
+			{X: 100.0, Y: 100.0},
+			{X: 70.0, Y: 50.0},
+			{X: 100.0, Y: 0.0},
+			{X: 50.0, Y: 30.0},
 		},
 	}
 
@@ -151,14 +151,14 @@ func BenchmarkPipParallelOneMillion(b *testing.B) {
 	b.StopTimer()
 	polygon := pip.Polygon{
 		Points: []pip.Point{
-			pip.Point{X: 0.0, Y: 0.0},
-			pip.Point{X: 30.0, Y: 50.0},
-			pip.Point{X: 0.0, Y: 100.0},
-			pip.Point{X: 50.0, Y: 70.0},
-			pip.Point{X: 100.0, Y: 100.0},
-			pip.Point{X: 70.0, Y: 50.0},
-			pip.Point{X: 100.0, Y: 0.0},
-			pip.Point{X: 50.0, Y: 30.0},
+			{X: 0.0, Y: 0.0},
+			{X: 30.0, Y: 50.0},
+			{X: 0.0, Y: 100.0},
+			{X: 50.0, Y: 70.0},
+			{X: 100.0, Y: 100.0},
+			{X: 70.0, Y: 50.0},
+			{X: 100.0, Y: 0.0},
+			{X: 50.0, Y: 30.0},
 		},
 	}
 
