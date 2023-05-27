@@ -5,7 +5,7 @@ import (
 	"strconv"
 	"testing"
 
-	"github.com/JamesMilnerUK/pip-go"
+	"github.com/paulstuart/pip-go"
 )
 
 func TestPip(t *testing.T) {
