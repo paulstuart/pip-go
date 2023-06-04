@@ -3,25 +3,35 @@ package pip
 import (
 	"runtime"
 	"sync"
+
+	"golang.org/x/exp/constraints"
 )
 
-type Point struct {
+// type Number = constraints.Number
+type Float = constraints.Float
+
+type Point[T Float] struct {
 	// A point
-	X float64
-	Y float64
+	X T
+	Y T
 }
 
-type Polygon struct {
+type Point64 = Point[float64]
+type Point32 = Point[float32]
+
+type Polygon[T Float] struct {
 	// A polygon
-	Points []Point
+	Points []Point[T]
 }
 
-type BoundingBox struct {
-	BottomLeft Point
-	TopRight   Point
+type Polygon64 = Polygon[float64]
+
+type BoundingBox[T Float] struct {
+	BottomLeft Point[T]
+	TopRight   Point[T]
 }
 
-func PointInPolygon(pt Point, poly Polygon) bool {
+func PointInPolygon[T Float](pt Point[T], poly Polygon[T]) bool {
 	// Checks if point is inside polygon
 
 	bb := GetBoundingBox(poly) // Get the bounding box of the polygon in question
@@ -62,7 +72,7 @@ func MaxParallelism() int {
 	return numCPU
 }
 
-func PointInPolygonParallel(pts []Point, poly Polygon, numcores int) []Point {
+func PointInPolygonParallel[T Float](pts []Point[T], poly Polygon[T], numcores int) []Point[T] {
 
 	MAXPROCS := MaxParallelism()
 	runtime.GOMAXPROCS(MAXPROCS)
@@ -72,7 +82,7 @@ func PointInPolygonParallel(pts []Point, poly Polygon, numcores int) []Point {
 	}
 
 	start := 0
-	inside := []Point{}
+	inside := []Point[T]{}
 
 	var m sync.Mutex
 	var wg sync.WaitGroup
@@ -83,7 +93,7 @@ func PointInPolygonParallel(pts []Point, poly Polygon, numcores int) []Point {
 		size := (len(pts) / numcores) * i
 		batch := pts[start:size]
 
-		go func(batch []Point) {
+		go func(batch []Point[T]) {
 			defer wg.Done()
 			for j := 0; j < len(batch); j++ {
 				pt := batch[j]
@@ -105,7 +115,7 @@ func PointInPolygonParallel(pts []Point, poly Polygon, numcores int) []Point {
 
 }
 
-func PointInBoundingBox(pt Point, bb BoundingBox) bool {
+func PointInBoundingBox[T Float](pt Point[T], bb BoundingBox[T]) bool {
 	// Check if point is in bounding box
 
 	// Bottom Left is the smallest and x and y value
@@ -115,9 +125,9 @@ func PointInBoundingBox(pt Point, bb BoundingBox) bool {
 
 }
 
-func GetBoundingBox(poly Polygon) BoundingBox {
+func GetBoundingBox[T Float](poly Polygon[T]) BoundingBox[T] {
 
-	var maxX, maxY, minX, minY float64
+	var maxX, maxY, minX, minY T
 
 	for i := 0; i < len(poly.Points); i++ {
 		side := poly.Points[i]
@@ -136,9 +146,9 @@ func GetBoundingBox(poly Polygon) BoundingBox {
 		}
 	}
 
-	return BoundingBox{
-		BottomLeft: Point{X: minX, Y: minY},
-		TopRight:   Point{X: maxX, Y: maxY},
+	return BoundingBox[T]{
+		BottomLeft: Point[T]{X: minX, Y: minY},
+		TopRight:   Point[T]{X: maxX, Y: maxY},
 	}
 
 }
